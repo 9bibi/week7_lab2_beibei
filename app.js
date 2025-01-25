@@ -36,7 +36,6 @@ app.post('/login', async (req, res) => {
       return res.status(400).send('Invalid password');
     }
 
-    // If login is successful, redirect to the main page
     res.redirect('/main');
   } catch (err) {
     console.error(err);
@@ -45,19 +44,17 @@ app.post('/login', async (req, res) => {
 });
 
 app.get('/register', (req, res) => {
-    res.render('register'); // Assumes you have a `register.ejs` or similar template
+    res.render('register'); 
 });
   
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // Validate input
     if (!username || !password) {
       return res.status(400).send('Username and password are required');
     }
 
-    // Check if the username already exists
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       return res.status(400).send('Username already exists. Please choose another.');
@@ -65,7 +62,6 @@ app.post('/register', async (req, res) => {
 
    
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({ username, password: hashedPassword });
@@ -83,14 +79,10 @@ app.post('/register', async (req, res) => {
 });
 
 
-const itemsSchema = {
-  name: String
-};
 
 app.get('/profile', async (req, res) => {
     try {
-      // Simulate fetching logged-in user data
-      const user = await User.findOne({ username: 'Aibibi_new' }); // Replace with dynamic user identification
+      const user = await User.findOne({ username: 'Aibibi_new' }); 
       if (!user) return res.status(404).send('User not found');
       res.render('profile', { user });
     } catch (err) {
@@ -111,7 +103,9 @@ try {
 }
 });
   
-
+const itemsSchema = {
+  name: String
+};
 const Item = mongoose.model("Item", itemsSchema);
 
 const item1 = new Item({
