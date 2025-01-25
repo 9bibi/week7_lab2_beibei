@@ -60,14 +60,13 @@ app.post('/register', async (req, res) => {
       return res.status(400).send('Username already exists. Please choose another.');
     }
 
-   
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUser = new User({ username, password: hashedPassword });
+  
+    const newUser = new User({ username, password });
+    console.log('Saving user:', newUser); 
     await newUser.save();
 
     res.send('User registered successfully');
+
   } catch (err) {
     if (err.code === 11000) {
       res.status(400).send('Username already exists. Please choose another.');
